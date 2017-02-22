@@ -1,0 +1,102 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<%= link_to 'Edit Profile', edit_user_path(@user) %> |
+
+<% if @user.admin == 0%>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<h2>User accounts</h2>
+
+<%= @user.accounts.each do |f| %>
+
+    <!--<p id="notice"><%= notice %></p>-->
+
+    <p>
+      <strong>Account:</strong>
+      <%= f.account_id %>
+    </p>
+
+    <p>
+      <strong>Balance:</strong>
+      <%= f.balance %>
+    </p>
+
+    <p>
+      <strong>Status:</strong>
+      <%= f.status %>
+    </p>
+
+<% end %>
+
+<h2>User Friends</h2>
+
+
+<%= link_to 'Back', users_path %>
+
+<% else %>
+    <br>
+    <br>
+    Create admin:
+
+    <%= form_for(@user, :url => { :action => "create" }, :html => { :method => :post }) do |f| %>
+        <% if @user.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+              <ul>
+                <% @user.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+        <div class="field">
+          <%= f.label :email %><br>
+          <%= f.text_field :email %>
+        </div>
+        <div class="field">
+          <%= f.label :name %><br>
+          <%= f.text_field :name %>
+        </div>
+        <div class="field">
+          <%= f.label :password %><br>
+          <%= f.password_field :password %>
+        </div>
+        <div class="field">
+          <%= f.label :password_confirmation %><br>
+          <%= f.password_field :password_confirmation %>
+        </div>
+        <div class="field">
+          <%= f.hidden_field :admin, value: 1 %>
+        </div>
+        <div class="actions">
+          <%= f.submit "Create admin"  %>
+        </div>
+    <% end %>
+
+    <%= link_to 'Show Admins', admins_path %>
+    <br>
+    <br>
+    <%= link_to 'Account creation requests', accountreqs_path %>
+
+<% end %>

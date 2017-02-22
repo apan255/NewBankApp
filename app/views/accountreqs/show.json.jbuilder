@@ -1,0 +1,1 @@
+json.partial! "accountreqs/accountreq", accountreq: @accountreq
